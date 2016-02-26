@@ -866,6 +866,7 @@ export default function ({types: t, template}): Object {
       void: expression(`input == null`),
       instanceof: expression(`input instanceof type`),
       type: expression(`type(input)`),
+      reactElement: expression(`React.isValidElement(input)`),
       mixed: () => null,
       any: () => null,
       union: checkUnion,
@@ -1637,6 +1638,9 @@ export default function ({types: t, template}): Object {
         }
         else if (isPolymorphicType(annotation.id, scope)) {
           return;
+        }
+        else if (/^HTML.*Element$/.test(annotation.id.name)) {
+          return checks.reactElement({input});
         }
         else {
           return checks.instanceof({input, type: createTypeExpression(annotation.id)});
