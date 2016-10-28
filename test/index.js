@@ -1316,6 +1316,8 @@ function failWith (errorMessage, basename, ...args) {
   it(`should not load '${basename}'`, async function () {
     let failed = false;
     let message;
+    const _error = console.error;
+    console.error = message => { throw new Error(message) };
     try {
       const result = load(basename)(...args);
       if (isThenable(result)) {
@@ -1326,6 +1328,7 @@ function failWith (errorMessage, basename, ...args) {
       failed = true;
       message = e.message;
     }
+    console.error = _error;
     if (!failed) {
       throw new Error(`Test '${basename}' should have failed but did not.`);
     }

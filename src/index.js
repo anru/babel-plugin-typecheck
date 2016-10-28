@@ -92,7 +92,7 @@ export default function ({types: t, template}): Object {
 
   const guard: (() => Node) = template(`
     if (!check) {
-      throw new TypeError(message);
+      console.error(message);
     }
   `);
 
@@ -101,14 +101,14 @@ export default function ({types: t, template}): Object {
       ret;
     }
     else {
-      throw new TypeError(message);
+      console.error(message);
     }
   `);
 
   const guardInline: (() => Node) = expression(`
     (id => {
       if (!check) {
-        throw new TypeError(message);
+        console.error(message);
       }
       return id;
     })(input)
@@ -117,7 +117,7 @@ export default function ({types: t, template}): Object {
   const guardFn: (() => Node) = expression(`
     function name (id) {
       if (!check) {
-        throw new TypeError(message);
+        console.error(message);
       }
       return id;
     }
